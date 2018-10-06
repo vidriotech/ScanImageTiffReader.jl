@@ -15,12 +15,12 @@ limitations under the License.
 module ScanImageTiffReader
 export open,size,pxtype,data,length,description,metadata
 
-type Context
-  handle::Ptr{Void}
+struct Context
+  handle::Ptr{Cvoid}
   log::Ptr{UInt8}
 end
 
-immutable strides_array
+struct strides_array
   strides_0::Int64
   strides_1::Int64
   strides_2::Int64
@@ -34,7 +34,7 @@ immutable strides_array
   strides_10::Int64
 end
 
-immutable dims_array
+struct dims_array
   dims_0::UInt64
   dims_1::UInt64
   dims_2::UInt64
@@ -47,15 +47,18 @@ immutable dims_array
   dims_9::UInt64
 end
 
-type Size
+struct Size
   ndim::UInt32
   typeid::Int32
   strides::strides_array
   dims::dims_array
 end
 
-@windows_only libname="ScanImageTiffReaderAPI.dll"
-@unix_only    libname="libScanImageTiffReaderAPI.so"
+libname=@static if Sys.iswindows()
+  "ScanImageTiffReaderAPI.dll"
+else
+  "libScanImageTiffReaderAPI.so"
+end
 
 function open(f::Function,filename::AbstractString)
   h=@eval ccall( (:ScanImageTiffReader_Open,$(libname)),Context,(Ptr{UInt8},),$(filename))
@@ -65,7 +68,7 @@ function open(f::Function,filename::AbstractString)
   try
     f(h)
   finally
-    @eval ccall( (:ScanImageTiffReader_Close,$(libname)),Void,(Context,),$(h))
+    @eval ccall( (:ScanImageTiffReader_Close,$(libname)),Cvoid,(Context,),$(h))
   end
 end
 
@@ -94,7 +97,7 @@ function pxtype(ctx::Context)
 function data(ctx::Context)
   out=Array(pxtype(ctx),size(ctx)...)
   @eval ccall( (:ScanImageTiffReader_GetData,$(libname)),Int,
-        (Context,Ptr{Void},Csize_t),
+        (Context,Ptr{Cvoid},Csize_t),
         $(ctx),$(out),sizeof($(out)))
   if ctx.log!=C_NULL
     throw(ErrorException(bytestring(ctx.log)))
