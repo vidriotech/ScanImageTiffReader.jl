@@ -10,10 +10,10 @@
     # want coverage results.
     - julia --version # Print out julia version for debugging
     - julia -e 'println(pwd());'
-    - julia -e 'using Pkg; Pkg.clone(pwd()); Pkg.build("ScanImageTiffReader"); Pkg.test("ScanImageTiffReader"; coverage = true)'
+    - julia -e 'using Pkg; Pkg.activate(pwd()); Pkg.build(); Pkg.test(; coverage = true)'
     # Comment out below if you do not want coverage results.
     - julia -e 'using Pkg; Pkg.add("Coverage");
-      import ScanImageTiffReader; cd(joinpath(dirname(pathof(ScanImageTiffReader)), ".."));
+      import ScanImageTiffReader; cd(dirname(dirname(pathof(ScanImageTiffReader))));
       using Coverage; cl, tl = get_summary(process_folder());
       println("($(round(cl/tl*100; digits=2))%) covered")'
 
@@ -24,7 +24,7 @@ test-0.7-nix:
   - spiegel-data
   before_script:
   - 'export PATH=/opt/julia-0.7.0/bin:$PATH'
-  - 'echo TESTBASE=/data/ScanImageTiffReader >>.env '
+  - 'echo TESTBASE=/data/ScanImageTiffReader >>test/.env '
   <<: *test_definition
 
 test-0.7-windows:
@@ -34,7 +34,7 @@ test-0.7-windows:
   - spiegel-data
   before_script:
   - 'PATH=%USERPROFILE%\AppData\Local\Julia-0.7.0\bin;%PATH%'
-  - '>>.env echo TESTBASE=F:/Tests/ScanImageTiffReader'
+  - '>>test/.env echo TESTBASE=F:/Tests/ScanImageTiffReader'
   <<: *test_definition
 
 test-0.1-nix:
@@ -44,7 +44,7 @@ test-0.1-nix:
   - spiegel-data
   before_script:
   - 'export PATH=/opt/julia-1.0.1/bin:$PATH'
-  - 'echo TESTBASE=/data/ScanImageTiffReader >>.env '
+  - 'echo TESTBASE=/data/ScanImageTiffReader >>test/.env '
   <<: *test_definition
 
 test-1.0-windows:
@@ -54,7 +54,7 @@ test-1.0-windows:
   - spiegel-data
   before_script:
   - 'PATH=%USERPROFILE%\AppData\Local\Julia-1.0.1\bin;%PATH%'
-  - '>>.env echo TESTBASE=F:/Tests/ScanImageTiffReader'
+  - '>>test/.env echo TESTBASE=F:/Tests/ScanImageTiffReader'
   <<: *test_definition
 
 # Maybe you would like to test your package against the development branch:
