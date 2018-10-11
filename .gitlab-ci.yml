@@ -12,10 +12,10 @@
     - julia -e "println(pwd());"
     - julia -e "using Pkg; Pkg.activate(pwd()); Pkg.build(); Pkg.test(; coverage = true)"
     # Comment out below if you do not want coverage results.
-    - julia -e "using Pkg; Pkg.add(\\"Coverage\\");
+    - julia -e "using Pkg; Pkg.add(\"Coverage\");
       import ScanImageTiffReader; cd(dirname(dirname(pathof(ScanImageTiffReader))));
       using Coverage; cl, tl = get_summary(process_folder());
-      println(\\"($(round(cl/tl*100; digits=2))%) covered\\")"
+      println(\"($(round(cl/tl*100; digits=2))%) covered\")"
 
 test-0.7-nix:
   # image: julia:0.7
