@@ -8,6 +8,7 @@
   script:
     # Let's run the tests. Substitute `coverage = false` below, if you do not
     # want coverage results.
+    - julia -e 'println(pwd());'
     - julia -e 'using Pkg; Pkg.clone(pwd()); Pkg.build("ScanImageTiffReader"); Pkg.test("ScanImageTiffReader"; coverage = true)'
     # Comment out below if you do not want coverage results.
     - julia -e 'using Pkg; Pkg.add("Coverage");
