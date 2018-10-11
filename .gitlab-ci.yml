@@ -33,6 +33,8 @@ test-0.7-windows:
   - windows
   - spiegel-data
   before_script:
+  - echo %USERPROFILE%
+  - echo %cd%
   - 'PATH=%USERPROFILE%\AppData\Local\Julia-0.7.0\bin;%PATH%'
   - '>>test\\.env echo TESTBASE=F:/Tests/ScanImageTiffReader'
   <<: *test_definition
@@ -43,6 +45,8 @@ test-0.1-nix:
   - nix
   - spiegel-data
   before_script:
+  - echo %USERPROFILE%
+  - echo %cd%
   - 'export PATH=/opt/julia-1.0.1/bin:$PATH'
   - 'echo TESTBASE=/data/ScanImageTiffReader >>test/.env '
   <<: *test_definition
