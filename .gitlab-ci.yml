@@ -1,21 +1,30 @@
-# Below is the template to run your tests in Julia
-.test_template: &test_definition
-  # Uncomment below if you would like to run the tests on specific references
-  # only, such as the branches `master`, `development`, etc.
-  # only:
-  #   - master
-  #   - development
+.test_template: &test_windows
+  only:
+    - master
+    - development
   script:
-    # Let's run the tests. Substitute `coverage = false` below, if you do not
-    # want coverage results.
+    - '>test\\.env echo TESTBASE=F:/Tests/ScanImageTiffReader'
     - julia --version # Print out julia version for debugging
     - julia -e "println(pwd());"
-    - julia -e "using Pkg; Pkg.activate(pwd()); Pkg.build(); Pkg.test(; coverage = true)"
-    # Comment out below if you do not want coverage results.
+    - julia -e "using Pkg; Pkg.add(PackageSpec(path=pwd())); Pkg.build(); Pkg.test(; coverage = true)"
     - julia -e "using Pkg; Pkg.add(\"Coverage\");
       import ScanImageTiffReader; cd(dirname(dirname(pathof(ScanImageTiffReader))));
       using Coverage; cl, tl = get_summary(process_folder());
-      println(\"($(round(cl/tl*100; digits=2))%) covered\")"
+      println(\"($(round(cl/tl*100; digits=2))%) covered\")
+
+.test_template: &test_nix
+  only:
+    - master
+    - development
+  script:
+    - 'echo TESTBASE=/data/ScanImageTiffReader >test/.env'
+    - julia --version # Print out julia version for debugging
+    - julia -e 'println(pwd());'
+    - julia -e 'using Pkg; Pkg.add(PackageSpec(path=pwd())); Pkg.build(); Pkg.test(; coverage = true)'
+    - julia -e 'using Pkg; Pkg.add("Coverage");
+      import ScanImageTiffReader; cd(dirname(dirname(pathof(ScanImageTiffReader))));
+      using Coverage; cl, tl = get_summary(process_folder());
+      println("($(round(cl/tl*100; digits=2))%) covered")'
 
 test-0.7-nix:
   # image: julia:0.7
@@ -24,8 +33,7 @@ test-0.7-nix:
   - spiegel-data
   before_script:
   - 'export PATH=/opt/julia-0.7.0/bin:$PATH'
-  - 'echo TESTBASE=/data/ScanImageTiffReader >test/.env '
-  <<: *test_definition
+  <<: *test_nix
 
 test-0.7-windows:
   # image: julia:0.7
@@ -34,8 +42,7 @@ test-0.7-windows:
   - spiegel-data
   before_script:
   - 'PATH=C:\Users\Alan\AppData\Local\Julia-1.0.1\bin;%PATH%'
-  - '>test\\.env echo TESTBASE=F:/Tests/ScanImageTiffReader'
-  <<: *test_definition
+  <<: *test_windows
 
 test-0.1-nix:
   # image: julia:0.7
@@ -44,8 +51,7 @@ test-0.1-nix:
   - spiegel-data
   before_script:
   - 'export PATH=/opt/julia-1.0.1/bin:$PATH'
-  - 'echo TESTBASE=/data/ScanImageTiffReader >test/.env '
-  <<: *test_definition
+  <<: *test_nix
 
 test-1.0-windows:
   # image: julia:1.0
@@ -54,8 +60,7 @@ test-1.0-windows:
   - spiegel-data
   before_script:
   - 'PATH=C:\Users\Alan\AppData\Local\Julia-1.0.1\bin;%PATH%'
-  - '>test\\.env echo TESTBASE=F:/Tests/ScanImageTiffReader'
-  <<: *test_definition
+  <<: *test_windows
 
 # Maybe you would like to test your package against the development branch:
 # test:1.1-dev (not sure there is such an image in docker, so not tested yet):
