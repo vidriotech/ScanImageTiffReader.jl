@@ -16,7 +16,7 @@ limitations under the License.
 module ScanImageTiffReader
 
 import Base: length, size
-export data, description, length, metadata, pxtype, size
+export Context, data, description, length, metadata, pxtype, size
 
 _release = "1.3pre"
 _libname = begin
@@ -85,6 +85,7 @@ Open a ScanImage TIFF file `filename` for reading and apply `func` to it
 
 # Examples
 ```jldoctest
+julia> using ScanImageTiffReader
 julia> ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", length)
 10
 ```
@@ -112,6 +113,7 @@ Return the shape of the data in the TIFF file.
 
 # Examples
 ```jldoctest
+julia> using ScanImageTiffReader
 julia> ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", size)
 (0x0000000000000200, 0x0000000000000200, 0x000000000000000a)
 ```
@@ -134,6 +136,7 @@ Return the type of the data in the TIFF file.
 
 # Examples
 ```jldoctest
+julia> using ScanImageTiffReader
 julia> ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", pxtype)
 Int16
 ```
@@ -157,7 +160,8 @@ Return an n-dimensional array containing the image stack.
 
 # Examples
 ```jldoctest
-julia> ScanImageTiffReader.open(filename, data)
+julia> using ScanImageTiffReader
+julia> ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", data)
 512×512×10 Array{Int16,3}:
 [...]
 ```
@@ -181,6 +185,7 @@ Return the number of planes in the image stack.
 
 # Examples
 ```jldoctest
+julia> using ScanImageTiffReader
 julia> ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", length)
 10
 ```
@@ -203,6 +208,7 @@ Return the contents of the image description tag for frame `iframe`.
 
 # Examples
 ```jldoctest
+julia> using ScanImageTiffReader
 julia> print(ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", description, 1))
 frameNumbers = 1
 acquisitionNumbers = 1
@@ -246,7 +252,7 @@ ScanImage, this is a bytestring that must be deserialized in MATLAB.
 # Examples
 
 ```jldoctest
-julia> using JSON
+julia> using ScanImageTiffReader, JSON
 julia> JSON.parse(ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", metadata))
 Dict{String,Any} with 2 entries:
   "SI"        => Dict{String,Any}("hConfigurationSaver"=>Dict{String,Any}("usrFilename"=>"","cfgFil…
