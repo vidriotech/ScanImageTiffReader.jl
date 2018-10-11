@@ -34,7 +34,7 @@ test-0.7-windows:
   - spiegel-data
   before_script:
   - 'PATH=%USERPROFILE%\AppData\Local\Julia-0.7.0\bin;%PATH%'
-  - '>>test/.env echo TESTBASE=F:/Tests/ScanImageTiffReader'
+  - '>>test\\.env echo TESTBASE=F:/Tests/ScanImageTiffReader'
   <<: *test_definition
 
 test-0.1-nix:
@@ -54,7 +54,7 @@ test-1.0-windows:
   - spiegel-data
   before_script:
   - 'PATH=%USERPROFILE%\AppData\Local\Julia-1.0.1\bin;%PATH%'
-  - '>>test/.env echo TESTBASE=F:/Tests/ScanImageTiffReader'
+  - '>>test\\.env echo TESTBASE=F:/Tests/ScanImageTiffReader'
   <<: *test_definition
 
 # Maybe you would like to test your package against the development branch:
