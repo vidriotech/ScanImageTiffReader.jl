@@ -1,6 +1,7 @@
 name = "ScanImageTiffReader"
 uuid = "2aa152d0-c912-11e8-1241-a988e280d624"
-authors = ["Nathan Clack <nathan@vidriotech.com>", "Alan Liddell <alan@vidriotech.com"]
+authors = ["Nathan Clack <nathan@vidriotech.com>",
+           "Alan Liddell <alan@vidriotech.com"]
 version = "0.1.0"
 
 [extras]
