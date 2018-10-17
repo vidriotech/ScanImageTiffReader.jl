@@ -6,8 +6,9 @@
     - '>test\\.env echo TESTBASE=F:/Tests/ScanImageTiffReader'
     - julia --version # Print out julia version for debugging
     - julia -e "println(pwd());"
-    - julia -e "using Pkg; Pkg.activate(pwd()); Pkg.build(); Pkg.test(; coverage = true);
-      Pkg.add(\"Coverage\"); using Coverage; cl, tl = get_summary(process_folder());
+    - julia -e "using Pkg; Pkg.add(\"Coverage\"); using Coverage;
+      Pkg.activate(pwd()); Pkg.build(); Pkg.test(; coverage = true);
+      cl, tl = get_summary(process_folder());
       println(\"$(Int(round(cl/tl*100; digits=0)))% covered\")"
 
 .test_template: &test_nix
@@ -18,9 +19,10 @@
     - 'echo TESTBASE=/data/ScanImageTiffReader >test/.env'
     - julia --version # Print out julia version for debugging
     - julia -e 'println(pwd());'
-    - julia -e 'using Pkg; Pkg.activate(pwd()); Pkg.build(); Pkg.test(; coverage = true);
-      Pkg.add("Coverage"); using Coverage; cl, tl = get_summary(process_folder());
-      println("($Int(round(cl/tl*100; digits=0)))% covered")'
+    - julia -e 'using Pkg; Pkg.add("Coverage"); using Coverage;
+      Pkg.activate(pwd()); Pkg.build(); Pkg.test(; coverage = true);
+      cl, tl = get_summary(process_folder());
+      println("$(Int(round(cl/tl*100; digits=0)))% covered")'
 
 test-0.7-nix:
   # image: julia:0.7
@@ -30,7 +32,7 @@ test-0.7-nix:
   before_script:
   - 'export PATH=/opt/julia-0.7.0/bin:$PATH'
   <<: *test_nix
-  coverage: '/(\d+)% c/'
+  coverage: '/(\d+)% covered/'
 
 test-0.7-windows:
   # image: julia:0.7
