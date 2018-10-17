@@ -79,10 +79,11 @@ test-1.0-windows:
 
 # Example documentation deployment
 pages:
-  image: julia:0.7
   stage: deploy
+  tags:
+  - nix
+  - spiegel-data
   script:
-    - apt-get update -qq && apt-get install -y git # needed by Documenter
     - julia -e 'using Pkg; Pkg.clone(pwd()); Pkg.build("ScanImageTiffReader");' # rebuild Julia (can be put somewhere else I'm sure
     - julia -e 'using Pkg; import ScanImageTiffReader; Pkg.add("Documenter")' # install Documenter
     - julia --color=yes docs/make.jl # make documentation
