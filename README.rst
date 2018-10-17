@@ -27,7 +27,7 @@ have questions or need support feel free to email_.
 .. _scanimage.org: http://scanimage.org
 .. _Python: https://www.python.org
 .. _Matlab: https://www.mathworks.com/
-.. _Julia: http://julialang.org
+.. _Julia: https://julialang.org
 .. _`Vidrio Technologies`: http://vidriotechnologies.com/
 .. _email: support@vidriotech.com
 
