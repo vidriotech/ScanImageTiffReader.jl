@@ -85,7 +85,6 @@ Open a ScanImage TIFF file `filename` for reading and apply `func` to it
 
 # Examples
 ```jldoctest
-julia> using ScanImageTiffReader
 julia> ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", length)
 10
 ```
@@ -113,14 +112,13 @@ Return the shape of the data in the TIFF file.
 
 # Examples
 ```jldoctest
-julia> using ScanImageTiffReader
 julia> ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", size)
 (0x0000000000000200, 0x0000000000000200, 0x000000000000000a)
 ```
 """
 function size(ctx::Context)
     s = @eval ccall((:ScanImageTiffReader_GetShape, $(_libname)), Size,
-                    (Ptr{Context}, ), $(Ref(ctx)))
+                    (Ptr{Context}, ), $(Ref(ctx)));
 
     if ctx.log != C_NULL
         throw(ErrorException(unsafe_string(ctx.log)))
@@ -136,20 +134,18 @@ Return the type of the data in the TIFF file.
 
 # Examples
 ```jldoctest
-julia> using ScanImageTiffReader
 julia> ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", pxtype)
 Int16
 ```
 """
 function pxtype(ctx::Context)
     s = @eval ccall((:ScanImageTiffReader_GetShape,$(_libname)), Size,
-                    (Ptr{Context}, ), $(Ref(ctx)))
+                    (Ptr{Context}, ), $(Ref(ctx)));
 
     if ctx.log!=C_NULL
         throw(ErrorException(unsafe_string(ctx.log)))
     end
 
-    println(s.typeid)
     _typemap[s.typeid + 1] # julia is 1-based
 end
 
@@ -159,17 +155,28 @@ end
 Return an n-dimensional array containing the image stack.
 
 # Examples
-```jldoctest
-julia> using ScanImageTiffReader
-julia> ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", data)
-512×512×10 Array{Int16,3}:
-[...]
+```jldoctest; output=false
+using ScanImageTiffReader
+d = ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", data)
+d[1:10, 1:10, 1]
+# output
+10×10 Array{Int16,2}:
+  9844   8752  10596  10153   8711   9879   8827   9004   9684   8604
+ 10038   9315   8696   9950   9061   8582   9013  10098  10364   9551
+ 10618  10610  10536   9716  10187   8813  10033  10206   8567  10299
+  9535   9417   9435  10227   9336   9300   9822   9799   9511   8991
+  9190  10558  10147  10129   9564   9112   9622   9074   8570   9614
+  9152   9148  10318  10175   8917  10477  10200   9530   9591   8780
+  9708   9749  10424   8796   8952  10358   9195   9367   9154   8618
+ 10136   8884  10197   9472   9141   9774   9026   9514   9945   8416
+  9008  10001   9679   8854   9217   8927   9310  10315   9682   9176
+  9301   9186   8765   9407   9358   8626   9943   8780   9384   9837
 ```
 """
 function data(ctx::Context)
     out = Array{pxtype(ctx)}(undef, size(ctx)...)
     @eval ccall((:ScanImageTiffReader_GetData, $(_libname)), Int,
-                (Ptr{Context}, Ptr{Cvoid}, Csize_t), $(Ref(ctx)), $(out), sizeof($(out)))
+                (Ptr{Context}, Ptr{Cvoid}, Csize_t), $(Ref(ctx)), $(out), sizeof($(out)));
 
     if ctx.log != C_NULL
         throw(ErrorException(unsafe_string(ctx.log)))
@@ -185,7 +192,6 @@ Return the number of planes in the image stack.
 
 # Examples
 ```jldoctest
-julia> using ScanImageTiffReader
 julia> ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", length)
 10
 ```
@@ -208,7 +214,6 @@ Return the contents of the image description tag for frame `iframe`.
 
 # Examples
 ```jldoctest
-julia> using ScanImageTiffReader
 julia> print(ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", description, 1))
 frameNumbers = 1
 acquisitionNumbers = 1
@@ -252,11 +257,10 @@ ScanImage, this is a bytestring that must be deserialized in MATLAB.
 # Examples
 
 ```jldoctest
-julia> using ScanImageTiffReader, JSON
 julia> JSON.parse(ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", metadata))
 Dict{String,Any} with 2 entries:
-  "SI"        => Dict{String,Any}("hConfigurationSaver"=>Dict{String,Any}("usrFilename"=>"","cfgFil…
-  "RoiGroups" => Dict{String,Any}("photostimRoiGroups"=>nothing,"imagingRoiGroup"=>Dict{String,Any}…
+  "SI"        => Dict{String,Any}("hConfigurationSaver"=>Dict{String,Any}("usrF…
+  "RoiGroups" => Dict{String,Any}("photostimRoiGroups"=>nothing,"imagingRoiGrou…
 ```
 """
 function metadata(ctx::Context)

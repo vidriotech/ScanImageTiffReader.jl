@@ -1,3 +1,9 @@
-using Documenter, ScanImageTiffReader
+using Documenter
+using ScanImageTiffReader
 
-makedocs()
+push!(LOAD_PATH, "../src")
+
+makedocs(
+    modules=ScanImageTiffReader,
+    doctest=true
+)
