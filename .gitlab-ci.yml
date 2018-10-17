@@ -9,8 +9,9 @@
     - julia -e "using Pkg; Pkg.activate(pwd()); Pkg.build(); Pkg.test(; coverage = true)"
     - julia -e "using Pkg; Pkg.add(PackageSpec(path=pwd())); Pkg.add(\"Coverage\");
       import ScanImageTiffReader; cd(dirname(dirname(pathof(ScanImageTiffReader))));
+      println(pwd());
       using Coverage; cl, tl = get_summary(process_folder());
-      println(\"($(round(cl/tl*100; digits=2))%) covered\")"
+      println(\"($(Int(round(cl/tl*100; digits=0)))%) covered\")"
 
 .test_template: &test_nix
   only:
@@ -24,7 +25,7 @@
     - julia -e 'using Pkg; Pkg.add(PackageSpec(path=pwd())); Pkg.add("Coverage");
       import ScanImageTiffReader; cd(dirname(dirname(pathof(ScanImageTiffReader))));
       using Coverage; cl, tl = get_summary(process_folder());
-      println("($(round(cl/tl*100; digits=2))%) covered")'
+      println("($(Int(round(cl/tl*100; digits=0)))%) covered")'
 
 test-0.7-nix:
   # image: julia:0.7
@@ -34,6 +35,7 @@ test-0.7-nix:
   before_script:
   - 'export PATH=/opt/julia-0.7.0/bin:$PATH'
   <<: *test_nix
+  coverage: '/(\d+)% c/'
 
 test-0.7-windows:
   # image: julia:0.7
