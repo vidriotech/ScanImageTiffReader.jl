@@ -34,9 +34,6 @@ have questions or need support feel free to email_.
 Examples
 ========
 
-Julia
-``````
-
 .. code-block:: julia
 
     using ScanImageTiffReader
