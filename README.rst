@@ -9,18 +9,34 @@
 About
 =====
 
-The ScanImageTiffReader_ is a command line tool and library for extracting data
-from Tiff_ and BigTiff_ files recorded using ScanImage_.  It is a very fast tiff
-reader and provides access to ScanImage-specific metadata.  It should read most
-tiff files, but as of now we don't support compressed or tiled data. This is the
-Julia_ interface.  It is also available for Matlab_ and Python_.
+The ScanImageTiffReader_ is a Julia_ library for extracting data from Tiff_ and BigTiff_ files recorded using ScanImage_.  It is a very fast tiff reader and provides access to ScanImage-specific metadata.  It should read most tiff files, but as of now we don't support compressed or tiled data. This is the Julia_ interface.  It is also available as a Matlab_, Python_,  or `C library`_.  There's also a `command-line interface`_.
 
 More information can be found on scanimage.org_.
 
 Both ScanImage_ and this reader are products of `Vidrio Technologies`_.  If you
 have questions or need support feel free to email_.
 
-.. _ScanImageTiffReader: http://scanimage.gitlab.io/ScanImageTiffReaderDocs/
+Examples
+========
+
+Install via the package manager:
+
+.. code-block:: julia
+
+    (v1.0) pkg> add ScanImageTiffReader
+
+Read a volume.  The `open` function opens a file context, executes the `data` method and then closes the file context.  See the documentation_ for more.
+
+.. code-block:: julia
+
+    using ScanImageTiffReader
+    vol = ScanImageTiffReader.open("my.tif", data)
+
+
+.. _Core: https://vidriotech.gitlab.io/scanimagetiffreader
+.. _`C library`: Core_
+.. _`command-line interface`: Core_
+.. _ScanImageTiffReader: https://vidriotech.gitlab.io/scanimagetiffreader-julia/
 .. _Tiff: https://en.wikipedia.org/wiki/Tagged_Image_File_Format
 .. _BigTiff: http://bigtiff.org/
 .. _ScanImage: http://scanimage.org
@@ -30,11 +46,4 @@ have questions or need support feel free to email_.
 .. _Julia: https://julialang.org
 .. _`Vidrio Technologies`: http://vidriotechnologies.com/
 .. _email: support@vidriotech.com
-
-Examples
-========
-
-.. code-block:: julia
-
-    using ScanImageTiffReader
-    vol = ScanImageTiffReader.open("my.tif", data)
+.. _documentation: https://vidriotech.gitlab.io/scanimagetiffreader-julia/
