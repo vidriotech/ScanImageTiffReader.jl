@@ -33,7 +33,7 @@ Read a volume.  The `open` function opens a file context, executes the `data` me
     vol = ScanImageTiffReader.open("my.tif", data)
 
 
-.. _Core: https://vidriotech.gitlab.io/scanimagetiffreader
+.. _Core: https://vidriotech.gitlab.io/scanimage-tiff-reader
 .. _`C library`: Core_
 .. _`command-line interface`: Core_
 .. _ScanImageTiffReader: https://vidriotech.gitlab.io/scanimagetiffreader-julia/
@@ -41,8 +41,8 @@ Read a volume.  The `open` function opens a file context, executes the `data` me
 .. _BigTiff: http://bigtiff.org/
 .. _ScanImage: http://scanimage.org
 .. _scanimage.org: http://scanimage.org
-.. _Python: https://www.python.org
-.. _Matlab: https://www.mathworks.com/
+.. _Python: https://vidriotech.gitlab.io/scanimagetiffreader-python/
+.. _Matlab: https://vidriotech.gitlab.io/scanimagetiffreader-matlab/
 .. _Julia: https://julialang.org
 .. _`Vidrio Technologies`: http://vidriotechnologies.com/
 .. _email: support@vidriotech.com
