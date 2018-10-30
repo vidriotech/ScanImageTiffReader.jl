@@ -18,6 +18,8 @@ Both [ScanImage](http://scanimage.org) and this reader are products of [Vidrio T
 
 ## Usage
 
+The [`open`](@ref) function attempts to open a file and execute a query on it before closing and handling any exceptions.  The query is passed as an argument and is one of `data`, `metadata`, `pxtype`, etc...
+
 ```julia
 julia> using Pkg
 julia> Pkg.add("ScanImageTiffReader")
