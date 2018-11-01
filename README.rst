@@ -34,7 +34,6 @@ Read a volume.  The `open` function opens a file context, executes the `data` me
         data(io)
     end
 
-.. _documentation: https://vidriotech.gitlab.io/scanimagetiffreader-julia
 .. _Core: https://vidriotech.gitlab.io/scanimage-tiff-reader
 .. _`C library`: Core_
 .. _`command-line interface`: Core_
