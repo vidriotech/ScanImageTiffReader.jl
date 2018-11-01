@@ -82,6 +82,8 @@ pages:
   tags:
   - nix
   - spiegel-data
+  before_script:
+    - 'echo TESTBASE=/data/ScanImageTiffReader >test/.env'
   script:
     - julia -e 'using Pkg; Pkg.clone(pwd()); Pkg.build("ScanImageTiffReader");' # rebuild Julia (can be put somewhere else I'm sure
     - julia -e 'using Pkg; import ScanImageTiffReader; Pkg.add("Documenter")' # install Documenter
@@ -91,7 +93,7 @@ pages:
     paths:
       - public
   only:
-  - master
+    - master
 
 
 # WARNING: This template is using the `julia` images from [Docker
