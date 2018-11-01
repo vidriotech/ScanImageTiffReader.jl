@@ -10,7 +10,7 @@ end
 
 ## About
 
-The [ScanImageTiffReader](https://vidriotech.gitlab.io/scanimagetiffreader-julia/) is a [Julia](https://julialang.org) library for extracting data from [Tiff](https://en.wikipedia.org/wiki/Tagged_Image_File_Format) and [BigTiff](http://bigtiff.org/) files recorded using [ScanImage](http://scanimage.org).  It is a very fast tiff reader and provides access to ScanImage-specific metadata.  It should read most tiff files, but as of now we don't support compressed or tiled data.  It is also available as a [Matlab](https://vidriotech.gitlab.io/scanimagetiffreader-matlab/), [Python](https://vidriotech.gitlab.io/scanimagetiffreader-python/),  or [C library](https://vidriotech.gitlab.io/scanimage-tiff-reader).  There's also a [command-line interface](https://vidriotech.gitlab.io/scanimage-tiff-reader).
+The ScanImageTiffReader is a [Julia](https://julialang.org) library for extracting data from [Tiff](https://en.wikipedia.org/wiki/Tagged_Image_File_Format) and [BigTiff](http://bigtiff.org/) files recorded using [ScanImage](http://scanimage.org).  It is a very fast tiff reader and provides access to ScanImage-specific metadata.  It should read most tiff files, but as of now we don't support compressed or tiled data.  It is also available as a [Matlab](https://vidriotech.gitlab.io/scanimagetiffreader-matlab/), [Python](https://vidriotech.gitlab.io/scanimagetiffreader-python/),  or [C library](https://vidriotech.gitlab.io/scanimage-tiff-reader).  There's also a [command-line interface](https://vidriotech.gitlab.io/scanimage-tiff-reader).
 
 More information and related tools can be found on [here](http://scanimage.vidriotechnologies.com/display/SIH/Tools).
 
