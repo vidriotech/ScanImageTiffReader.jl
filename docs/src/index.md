@@ -14,7 +14,7 @@ The [ScanImageTiffReader](https://vidriotech.gitlab.io/scanimagetiffreader-julia
 
 More information and related tools can be found on [here](http://scanimage.vidriotechnologies.com/display/SIH/Tools).
 
-Both [ScanImage](http://scanimage.org) and this reader are products of [Vidrio Technologies](http://vidriotechnologies.com/).  If you have questions or need support feel free to [email](support@vidriotech.com).
+Both [ScanImage](http://scanimage.org) and this reader are products of [Vidrio Technologies](http://vidriotechnologies.com/).  If you have questions or need support feel free to [submit an issue](https://gitlab.com/vidriotech/scanimagetiffreader-julia/issues) or [contact us](https://vidriotechnologies.com/contact-support/).
 
 ## Usage
 

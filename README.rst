@@ -14,7 +14,7 @@ The ScanImageTiffReader_ is a Julia_ library for extracting data from Tiff_ and 
 More information can be found on scanimage.org_.
 
 Both ScanImage_ and this reader are products of `Vidrio Technologies`_.  If you
-have questions or need support feel free to email_.
+have questions or need support feel free to `submit an issue`_ `or contact us`_.
 
 Examples
 ========
@@ -45,5 +45,6 @@ Read a volume.  The `open` function opens a file context, executes the `data` me
 .. _Matlab: https://vidriotech.gitlab.io/scanimagetiffreader-matlab/
 .. _Julia: https://julialang.org
 .. _`Vidrio Technologies`: http://vidriotechnologies.com/
-.. _email: support@vidriotech.com
+.. _`contact us`: https://vidriotechnologies.com/contact-support/
+-- _`submit an issue`: https://gitlab.com/vidriotech/scanimagetiffreader-julia/issues
 .. _documentation: https://vidriotech.gitlab.io/scanimagetiffreader-julia/
