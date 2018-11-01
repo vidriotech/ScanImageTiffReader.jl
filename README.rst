@@ -14,7 +14,7 @@ The ScanImageTiffReader_ is a Julia_ library for extracting data from Tiff_ and 
 More information can be found on scanimage.org_.
 
 Both ScanImage_ and this reader are products of `Vidrio Technologies`_.  If you
-have questions or need support feel free to `submit an issue`_ `or contact us`_.
+have questions or need support feel free to `submit an issue`_ or `contact us`_.
 
 Examples
 ========
@@ -30,7 +30,9 @@ Read a volume.  The `open` function opens a file context, executes the `data` me
 .. code-block:: julia
 
     using ScanImageTiffReader
-    vol = ScanImageTiffReader.open("my.tif", data)
+    vol = ScanImageTiffReader.open("my.tif") do io
+        data(io)
+    end
 
 
 .. _Core: https://vidriotech.gitlab.io/scanimage-tiff-reader
@@ -46,5 +48,5 @@ Read a volume.  The `open` function opens a file context, executes the `data` me
 .. _Julia: https://julialang.org
 .. _`Vidrio Technologies`: http://vidriotechnologies.com/
 .. _`contact us`: https://vidriotechnologies.com/contact-support/
--- _`submit an issue`: https://gitlab.com/vidriotech/scanimagetiffreader-julia/issues
+.. _`submit an issue`: https://gitlab.com/vidriotech/scanimagetiffreader-julia/issues
 .. _documentation: https://vidriotech.gitlab.io/scanimagetiffreader-julia/
