@@ -3,7 +3,12 @@
 ```@meta
 DocTestSetup  = quote
     using Pkg
-    Pkg.add("JSON")
+    Pkg.add(["JSON", "DotEnv"])
+
+    using DotEnv
+    DotEnv.config(joinpath(dirname(pwd()), "test", ".env"))
+    mytif = joinpath(ENV["TESTBASE"], "linj_00001.tif") # so we don't have to specify full paths in doctests
+
     using ScanImageTiffReader, JSON
 end
 ```
@@ -24,7 +29,9 @@ The [`ScanImageTiffReader.open`](@ref) function attempts to open a file and exec
 julia> using Pkg
 julia> Pkg.add("ScanImageTiffReader")
 julia> using ScanImageTiffReader
-julia> vol = ScanImageTiffReader.open("my.tif", data) 
+julia> vol = ScanImageTiffReader.open("my.tif") do io
+    data(io)
+end
 ```
 
 ## API Documentation

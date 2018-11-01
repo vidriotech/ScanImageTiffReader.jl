@@ -2,14 +2,20 @@
 filename = joinpath(testbase, "linj_00001.tif")
     # $ ScanImageTiffReader image shape linj_00001.tif
     # Shape: 512 x 512 x 10 @ i16
-    tsize = ScanImageTiffReader.open(filename, size)
+    tsize = ScanImageTiffReader.open(filename) do io
+        size(io)
+    end
     @test tsize == (512, 512, 10)
-    ttype = ScanImageTiffReader.open(filename, pxtype)
+    ttype = ScanImageTiffReader.open(filename) do io
+        pxtype(io)
+    end
     @test ttype == Int16
 
     # $ ScanImageTiffReader image bytes linj_00001.tif
     # 5 MB
-    dat = ScanImageTiffReader.open(filename, data)
+    dat = ScanImageTiffReader.open(filename) do io
+        data(io)
+    end
     @test abs(sizeof(dat)/2^20 - 5.0) < 1e-5
     # @test ScanImageTiffReader.open(filename, length) == size(dat, 3) # TODO: check this assumption
 
@@ -24,7 +30,9 @@ filename = joinpath(testbase, "linj_00001.tif")
     # "endOfAcquisitionMode = 0" 
     # "dcOverVoltage = 0" 
     # "epoch = [2016 6 4 13 51 7.8046]" 
-    desc = split(ScanImageTiffReader.open(filename, description, 1), "\n")
+    desc = ScanImageTiffReader.open(filename) do io
+        split(description(io, 1), "\n")
+    end
     @test desc[1] == "frameNumbers = 1"
     @test desc[2] == "acquisitionNumbers = 1"
     @test desc[3] == "frameNumberAcquisition = 1"
@@ -48,7 +56,9 @@ filename = joinpath(testbase, "linj_00001.tif")
     #     "hBeams": { 
     #       "beamCalibratedStatus": [0,0,0], 
     # [...]
-    md = JSON.parse(ScanImageTiffReader.open(filename, metadata))
+    md = ScanImageTiffReader.open(filename) do io
+        JSON.parse(metadata(io))
+    end
     # only descend two levels...
     @test md["SI"]["imagingSystem"] == "LinScanner"
     @test md["SI"]["acqState"] == "grab"

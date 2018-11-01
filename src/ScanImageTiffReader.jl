@@ -78,18 +78,21 @@ struct Size
 end
 
 """
-    open(filename::AbstractString, func::Function, args...)
+    open(func::Function, filename::AbstractString, args...)
 
 Open a ScanImage TIFF file `filename` for reading and apply `func` to it
 (with optional arguments).
 
 # Examples
 ```jldoctest
-julia> ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", length)
+ScanImageTiffReader.open(mytif) do io
+    length(io)
+end
+# output
 10
 ```
 """
-function open(filename::AbstractString, func::Function, args...)
+function open(func::Function, filename::AbstractString, args...)
     handle = @eval ccall((:ScanImageTiffReader_Open, $(_libname)), Context,
                          (Ptr{UInt8}, ), $(filename))
 
@@ -112,8 +115,11 @@ Return the shape of the data in the TIFF file.
 
 # Examples
 ```jldoctest
-julia> ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", size)
-(0x0000000000000200, 0x0000000000000200, 0x000000000000000a)
+ScanImageTiffReader.open(mytif) do io
+    size(io)
+end
+# output
+(512, 512, 10)
 ```
 """
 function size(ctx::Context)
@@ -124,7 +130,7 @@ function size(ctx::Context)
         throw(ErrorException(unsafe_string(ctx.log)))
     end
 
-    getfield.(Ref(s.dims), fieldnames(dims_array)[1:s.ndim])
+    Int64.(getfield.(Ref(s.dims), fieldnames(dims_array)[1:s.ndim]))
 end
 
 """
@@ -134,7 +140,10 @@ Return the type of the data in the TIFF file.
 
 # Examples
 ```jldoctest
-julia> ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", pxtype)
+ScanImageTiffReader.open(mytif) do io
+    pxtype(io)
+end
+# output
 Int16
 ```
 """
@@ -157,7 +166,9 @@ Return an n-dimensional array containing the image stack.
 # Examples
 ```jldoctest; output=false
 using ScanImageTiffReader
-d = ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", data)
+d = ScanImageTiffReader.open(mytif) do io
+    data(io)
+end
 d[1:10, 1:10, 1]
 # output
 10×10 Array{Int16,2}:
@@ -192,7 +203,10 @@ Return the number of planes in the image stack.
 
 # Examples
 ```jldoctest
-julia> ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", length)
+ScanImageTiffReader.open(mytif) do io
+    length(io)
+end
+# output
 10
 ```
 """
@@ -214,7 +228,11 @@ Return the contents of the image description tag for frame `iframe`.
 
 # Examples
 ```jldoctest
-julia> print(ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", description, 1))
+desc = ScanImageTiffReader.open(mytif) do io
+    description(io, 1)
+end
+print(desc)
+# output
 frameNumbers = 1
 acquisitionNumbers = 1
 frameNumberAcquisition = 1
@@ -257,7 +275,10 @@ ScanImage, this is a bytestring that must be deserialized in MATLAB.
 # Examples
 
 ```jldoctest
-julia> JSON.parse(ScanImageTiffReader.open("/data/ScanImageTiffReader/linj_00001.tif", metadata))
+ScanImageTiffReader.open(mytif) do io
+    JSON.parse(metadata(io))
+end
+# output
 Dict{String,Any} with 2 entries:
   "SI"        => Dict{String,Any}("hConfigurationSaver"=>Dict{String,Any}("usrF…
   "RoiGroups" => Dict{String,Any}("photostimRoiGroups"=>nothing,"imagingRoiGrou…

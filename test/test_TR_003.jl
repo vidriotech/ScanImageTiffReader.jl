@@ -2,14 +2,20 @@
 filename = joinpath(testbase, "TR_003.tif")
     # $ ScanImageTiffReader image shape TR_003.tif
     # Shape: 512 x 512 x 10 @ i16
-    tsize = ScanImageTiffReader.open(filename, size)
+    tsize = ScanImageTiffReader.open(filename) do io
+        size(io)
+    end
     @test tsize == (512, 512, 10)
-    ttype = ScanImageTiffReader.open(filename, pxtype)
+    ttype = ScanImageTiffReader.open(filename) do io
+        pxtype(io)
+    end
     @test ttype == Int16
 
     # $ ScanImageTiffReader image bytes TR_003.tif
     # 5 MB
-    dat = ScanImageTiffReader.open(filename, data)
+    dat = ScanImageTiffReader.open(filename) do io
+        data(io)
+    end
     @test abs(sizeof(dat)/2^20 - 5.0) < 1e-5
     # @test ScanImageTiffReader.open(filename, length) == size(dat, 3) # TODO: check this assumption
 
@@ -25,7 +31,9 @@ filename = joinpath(testbase, "TR_003.tif")
     # "scanimage.SI4.beamFillFracAdjust = 14" 
     # "scanimage.SI4.beamFlybackBlanking = true" 
     # [...]
-    desc = split(ScanImageTiffReader.open(filename, description, 1), "\n")
+    desc = ScanImageTiffReader.open(filename) do io
+        split(description(io, 1), "\n")
+    end
     @test desc[1] == "Frame Tag = 00000001"
     @test desc[2] == "scanimage.SI4.acqFrameBufferLength = 11"
     @test desc[3] == "scanimage.SI4.acqFrameBufferLengthMin = 2"
@@ -39,5 +47,5 @@ filename = joinpath(testbase, "TR_003.tif")
 
     # $ ScanImageTiffReader metadata TR_003.tif
     #
-    @test ScanImageTiffReader.open(filename, metadata) == ""
+    @test ScanImageTiffReader.open(metadata, filename) == ""
 end

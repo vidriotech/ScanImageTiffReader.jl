@@ -2,14 +2,20 @@
 filename = joinpath(testbase, "resj_2018a_00002.tif")
     # $ ScanImageTiffReader image shape resj_2018a_00002.tif
     # Shape: 1024 x 1024 x 5 @ i16
-    tsize = ScanImageTiffReader.open(filename, size)
+    tsize = ScanImageTiffReader.open(filename) do io
+        size(io)
+    end
     @test tsize == (1024, 1024, 5)
-    ttype = ScanImageTiffReader.open(filename, pxtype)
+    ttype = ScanImageTiffReader.open(filename) do io
+        pxtype(io)
+    end
     @test ttype == Int16
 
     # $ ScanImageTiffReader image bytes resj_2018a_00002.tif
     # 10 MB
-    dat = ScanImageTiffReader.open(filename, data)
+    dat = ScanImageTiffReader.open(filename) do io
+        data(io)
+    end
     @test abs(sizeof(dat)/2^20 - 10.0) < 1e-5
     # @test ScanImageTiffReader.open(filename, length) == size(dat, 3) # TODO: check this assumption
 
@@ -25,7 +31,9 @@ filename = joinpath(testbase, "resj_2018a_00002.tif")
     # "  "endOfAcquisitionMode": 0," 
     # "  "dcOverVoltage": 0," 
     # [...]
-    desc = split(ScanImageTiffReader.open(filename, description, 1), "\n")
+    desc = ScanImageTiffReader.open(filename) do io
+        split(description(io, 1), "\n")
+    end
     @test desc[1] == "{"
     @test desc[2] == "  \"frameNumbers\": 1,"
     @test desc[3] == "  \"acquisitionNumbers\": 1,"
@@ -49,7 +57,9 @@ filename = joinpath(testbase, "resj_2018a_00002.tif")
     #     "acqsPerLoop": 1, 
     #     "extTrigEnable": 0, 
     # [...]
-    md = JSON.parse(ScanImageTiffReader.open(filename, metadata))
+    md = ScanImageTiffReader.open(filename) do io
+        JSON.parse(metadata(io))
+    end
     # only descend two levels...
     @test md["SI"]["imagingSystem"] == "ResScanner"
     @test md["SI"]["acqState"] == "grab"
