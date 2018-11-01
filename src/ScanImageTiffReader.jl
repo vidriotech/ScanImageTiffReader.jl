@@ -18,7 +18,7 @@ module ScanImageTiffReader
 import Base: length, size
 export Context, data, description, length, metadata, pxtype, size
 
-_release = "1.3pre"
+_release = "1.3"
 _libname = begin
     external = joinpath(dirname(dirname(@__FILE__)), "external")
     if Sys.iswindows()
