@@ -269,7 +269,7 @@ Read the ScanImage metadata section from the file.
 This data section is not part of the Tiff specification, so common Tiff readers
 will not be able to access this data.
 
-In ScanImage 2016 and later, this is a JSON string.  For previous versions of
+In ScanImage 2016 and later, this may be a JSON string.  For previous versions of
 ScanImage, this is a bytestring that must be deserialized in MATLAB.
 
 # Examples
